@@ -1,0 +1,120 @@
+<!-- POM: конфигурация Maven-проекта -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <!-- Модель POM -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Координаты артефакта: кто и что собираем -->
+    <groupId>edu.etu</groupId>        <!-- Группа/орг. -->
+    <artifactId>mvnweb2</artifactId>  <!-- Имя приложения -->
+    <version>0.0.1-SNAPSHOT</version> <!-- Версия (SNAPSHOT = в разработке) -->
+    <packaging>war</packaging>        <!-- Тип сборки: WAR для веб-приложения -->
+
+    <name>mvnweb2 Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+    <!-- Свойства проекта: версия Java для компиляции -->
+    <properties>
+        <!-- release сообщает компилятору, под какую платформу компилировать.
+             17 — надёжный выбор; можно поставить 21, если у вас JDK 21+ и плагины поддерживают -->
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- Зависимости, нужные на этапе компиляции/тестов -->
+    <dependencies>
+
+        <!-- Jakarta Servlet API (Tomcat 10+).
+             scope=provided: контейнер (Tomcat) подставит эту библиотеку во время выполнения,
+             а в WAR мы её не кладём, чтобы не было конфликтов версий. -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JUnit 4 для модульных тестов (запускается плагином surefire на фазе test).
+             scope=test: используется только при тестировании. -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- Имя итогового артефакта: target/mvnweb2.war -->
+        <finalName>mvnweb2</finalName>
+
+        <!-- Плагины Maven: выполняют фазы жизненного цикла сборки -->
+        <plugins>
+
+            <!-- maven-clean-plugin: очищает target/ на фазе clean -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.3.2</version>
+                <!-- goal clean связывается по умолчанию с фазой clean -->
+            </plugin>
+
+            <!-- maven-resources-plugin: копирует ресурсы (webapp, *.properties) на фазах process-resources/testResources -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+
+            <!-- maven-compiler-plugin: компилирует Java-код на фазе compile/testCompile -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <!-- Использует свойство maven.compiler.release -->
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+
+            <!-- maven-surefire-plugin: запускает модульные тесты на фазе test -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <!-- По умолчанию подхватывает классы *Test.java -->
+            </plugin>
+
+            <!-- maven-war-plugin: упаковывает веб-приложение в WAR на фазе package -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <!-- web.xml берётся из src/main/webapp/WEB-INF/web.xml;
+                         можно явно указать, если лежит в другом месте -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <!-- maven-install-plugin: кладёт собранный артефакт в локальный репозиторий ~/.m2 на фазе install -->
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.1.2</version>
+            </plugin>
+
+            <!-- maven-deploy-plugin: (опционально) отправляет артефакт в удалённый репозиторий на фазе deploy -->
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+                <!-- Для ЛР обычно не нужен; оставлен для полноты -->
+            </plugin>
+
+            <!-- (опционально) javadoc: генерирует документацию по коду по команде mvn javadoc:javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
