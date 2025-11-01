@@ -1,0 +1,8 @@
+﻿.idea/
+*.iml
+target/
+*.war
+war_unpacked/
+*.zip
+*.docx
+*.pdf
