@@ -61,6 +61,7 @@ public class ProgressServlet extends HttpServlet {
         }
     }
 
+
     private static boolean isBlank(String s) { return s == null || s.isBlank(); }
     private static boolean isEn(Locale l) { return Locale.ENGLISH.getLanguage().equals(l.getLanguage()); }
     private static String t(ResourceBundle rb, String key) { return rb.getString(key); }
