@@ -1,0 +1,17 @@
+<Context>
+    <Resource
+            name="jdbc/SchoolDb"
+            auth="Container"
+            type="javax.sql.DataSource"
+            factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+            driverClassName="org.h2.Driver"
+            url="jdbc:h2:mem:schooldb;DB_CLOSE_DELAY=-1"
+            username="sa"
+            password=""
+            initialSize="1"
+            maxActive="10"
+            maxIdle="5"
+            minIdle="1"
+            testOnBorrow="true"
+            validationQuery="SELECT 1"/>
+</Context>
