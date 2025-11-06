@@ -1,0 +1,37 @@
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <!-- создаёт таблицу при старте -->
+    <listener>
+        <listener-class>com.school.web.DbInitListener</listener-class>
+    </listener>
+
+    <!-- UTF-8 -->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.school.web.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- маппинг контроллера -->
+    <servlet>
+        <servlet-name>progress</servlet-name>
+        <servlet-class>com.school.web.ProgressController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>progress</servlet-name>
+        <url-pattern>/progress</url-pattern>
+    </servlet-mapping>
+
+    <!-- JNDI ссылка на ресурс из context.xml -->
+    <resource-ref>
+        <res-ref-name>jdbc/SchoolDb</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+</web-app>
